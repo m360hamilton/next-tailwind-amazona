@@ -13,7 +13,7 @@ export default function Layout({title, children}) {
 
       <div className="flex min-h-screen flex-col justify-between">
         <header>
-          <nav className="flex h-12 items-center px-4 justify-between shadow-md shadow-white">
+          <nav className="flex h-12 items-center px-4 justify-between shadow-md">
             <Link href="/" legacyBehavior>
               <a className="text-lg font-bold">Amazona</a>
             </Link>
