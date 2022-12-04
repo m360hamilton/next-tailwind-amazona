@@ -9,8 +9,8 @@ description
 3. Create Next App
 4. Publish to Github
 5. Create Websit Layout
-    1. create layout componet
-    2. add header
-    3. add main section
-    4. add footer
-    5. add tailwind classes
+   1. create layout componet
+   2. add header
+   3. add main section
+   4. add footer
+   5. add tailwind classes
