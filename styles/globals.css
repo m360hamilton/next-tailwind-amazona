@@ -37,3 +37,7 @@ a {
          hover:bg-amber-400
          active:bg-amber-500;
 }
+
+.cart-badge {
+  @apply ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white;
+}
