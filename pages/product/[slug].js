@@ -7,8 +7,8 @@ import data from '../../utils/data';
 import { Store } from '../../utils/Store';
 
 export default function ProductScreen() {
-
-  const {state, dispatch} = useContext(Store);
+  const { state, dispatch } = useContext(Store);
+  const router = useRouter();
   const { query } = useRouter();
   const { slug } = query;
   const product = data.products.find((x) => x.slug === slug);
@@ -20,13 +20,14 @@ export default function ProductScreen() {
   const addToCartHandler = () => {
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? ++existItem.quantity : 1;
-    if( product.countInStock < quantity){
+    if (product.countInStock < quantity) {
       alert('Sorry. Product is out of stock');
       return;
     }
 
-    dispatch( {type: 'CART_ADD_ITEM', payload: {...product, quantity}});
-  }
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    router.push('/cart');
+  };
 
   return (
     <Layout title={product.name}>
@@ -64,9 +65,17 @@ export default function ProductScreen() {
             </div>
             <div className="mb-2 flex justify-between">
               <div>Status</div>
-              <div>{product.countInStock > 0 ? 'In stock': 'Unavailable'}</div>
+              <div>{product.countInStock > 0 
+                ? 'In stock' 
+                : 'Unavailable'}
+              </div>
             </div>
-            <button className='primary-button w-full' onClick={addToCartHandler}>Add to cart</button>
+            <button
+              className="primary-button w-full"
+              onClick={addToCartHandler}
+            >
+              Add to cart
+            </button>
           </div>
         </div>
       </div>
