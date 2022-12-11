@@ -7,13 +7,19 @@ import { Store } from '../utils/Store';
 import { useRouter } from 'next/router';
 
 export default function CartScreen() {
-
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
-  const { cart: { cartItems } } = state;
+  const {
+    cart: { cartItems },
+  } = state;
 
   const removeItemHandleer = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+
+  const updateCartHandler = (item, qty) => {
+    const quantity = Number(qty);
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
   };
 
   return (
@@ -39,19 +45,36 @@ export default function CartScreen() {
                 {cartItems.map((item) => (
                   <tr key={item.slug} className="border-b">
                     <td>
-                      <Link href={`/product/${item.slug}`}>
-                        <a className="flex items-center"></a>
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={50}
-                          height={50}
-                        ></Image>
-                        &nbsp;
-                        {item.name}
+                      <Link
+                        href={`/product/${item.slug}`}
+                        legacyBehavior={true}
+                      >
+                        <a className="flex items-center">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          ></Image>
+                          &nbsp;
+                          {item.name}
+                        </a>
                       </Link>
                     </td>
-                    <td className="p-5 text-right">{item.quantity}</td>
+                    <td className="p-5 text-right">
+                      <select
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateCartHandler(item, e.target.value)
+                        }
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                     <td className="p-5 text-right">${item.price}</td>
                     <td className="p-5 text-center">
                       <button onClick={() => removeItemHandleer(item)}>
